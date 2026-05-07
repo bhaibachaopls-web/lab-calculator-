@@ -43,7 +43,7 @@ if input_method == "Upload File":
 
 else: 
     st.write("Type your data directly into the table below. Click the bottom row to add more.")
-    blank_template = pd.DataFrame(columns=["Frequency(f) KHz", "Pulse height across R1(h1)", "Pulse height between A,B(h1 + h2)"])
+    blank_template = pd.DataFrame(columns=["freq", "h1", "total"])
     df_raw = st.data_editor(blank_template, num_rows="dynamic", use_container_width=True)
 
 
