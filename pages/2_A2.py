@@ -10,6 +10,8 @@ from scipy.signal import find_peaks
 def reset_calc():
     # This forces the app to "forget" the button click
     st.session_state.calc_exp2 = False
+def trigger_math():
+    st.session_state.calc_exp2 = True
 
 
 st.set_page_config(page_title="Experiment 2", page_icon="📈", layout="centered")
@@ -44,8 +46,8 @@ if input_method == "Upload File":
         })
 else: 
     st.write("Type your data directly into the table below. Click the bottom row to add more.")
-    distance_values = list(range(0,50))
-    empty_pulse_values = [None] * 50
+    distance_values = list(range(0,51))
+    empty_pulse_values = [None] * 51
     prefilled_template = pd.DataFrame({
         "distance": distance_values,
         "pulse_height": empty_pulse_values
@@ -58,7 +60,7 @@ else:
     df_clean = pd.DataFrame()
 if 'calc_exp2' not in st.session_state:
     st.session_state.calc_exp2 = False
-if st.button("Start Calculation", type="primary"):
+if st.button("Start Calculation", type="primary", on_click = trigger_math):
     st.session_state.calc_exp2 = True
 
 if st.session_state.calc_exp2 and not df_clean.empty:
@@ -109,13 +111,13 @@ if st.session_state.calc_exp2 and not df_clean.empty:
             ax.set_xlabel('Distance (mm)')
             ax.set_ylabel('Pulse height(Volt)')
             ax.set_xlim(left= 0)
-            ax.set_xticks(np.arange(0,55, step= 5))
-            ax.set_yticks(np.arange(1,4.5,.5))
+            ax.set_xticks(np.arange(0,max(x) + 5, step= 5))
+            ax.set_yticks(np.arange(1,max(y) + .55,.5))
 
             ax.annotate(
             text = 'n = 0',
             xy = (peak_distances[0], peak_height[0]),
-            xytext=(peak_distances[0], peak_height[0] + 0.03)
+            xytext=(peak_distances[0], peak_height[0] + 0.09)
             )
 
             for i in range (3) :

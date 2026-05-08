@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt
 def reset_calc():
     # This forces the app to "forget" the button click
     st.session_state.calc_exp2 = False
-
+def trigger_math():
+    st.session_state.calc_exp2 = True
 
 
 st.set_page_config(page_title="Experiment 1", page_icon="📈", layout="centered")
@@ -57,7 +58,7 @@ else:
     df_clean = pd.DataFrame()
 if 'calc_exp2' not in st.session_state:
     st.session_state.calc_exp2 = False
-if st.button("Start Calculation", type="primary"):
+if st.button("Start Calculation", type="primary", on_click = trigger_math):
     st.session_state.calc_exp2 = True
 
 if st.session_state.calc_exp2 and not df_clean.empty:
@@ -83,6 +84,6 @@ if st.session_state.calc_exp2 and not df_clean.empty:
         ax.set_title('Impedance as a function of frequency')
         ax.set_xlabel('Frequency, (KHz)')
         ax.set_ylabel('Impedance, Z(Ω)')
-        ax.set_xticks(np.arange(0, 200, 20))
-        ax.set_yticks(np.arange(0, 23000, 2000))
+        ax.set_xticks(np.arange(0, max(df['freq']) + 20, 20))
+        ax.set_yticks(np.arange(0, max(df['z']) + 3000, 2000))
         st.pyplot(fig)
