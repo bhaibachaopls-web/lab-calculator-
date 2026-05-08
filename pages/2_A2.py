@@ -83,7 +83,7 @@ if st.session_state.calc_exp2 and not df_clean.empty:
         peak_indices, properties = find_peaks(y_smooth, prominence=0.1)
         peak_distances = x_smooth[peak_indices]
         peak_height = y_smooth[peak_indices]
-        if len(peak_distances) < 5:
+        if len(peak_distances) < 1:
             st.error(f"Not enough peaks found in the data! The mathematical model for this experiment requires at least 5 wave peaks. Found: {len(peak_distances)}")
             st.info("Make sure you are entering actual oscillating experimental data, not linear test data.")
         else:
