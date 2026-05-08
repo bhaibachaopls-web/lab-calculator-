@@ -33,8 +33,8 @@ if input_method == "Upload File":
         uploaded_cols = df_raw.columns.tolist()
         st.write("Match your file's columns to the required experiment variables:")
         col1, col2 = st.columns(2)
-        c1 = col1.selectbox("Frequency", uploaded_cols)
-        c2 = col2.selectbox("Pulse height across R₁", uploaded_cols)
+        c1 = col1.selectbox("Distance", uploaded_cols)
+        c2 = col2.selectbox("Pulse height", uploaded_cols)
 
         df_raw = pd.DataFrame({
             "distance": df_raw[c1],
