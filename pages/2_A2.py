@@ -144,8 +144,8 @@ if not df_raw.empty and not df_raw.isna().all().all():
         j += 1
 
     mean_v = sum(Wvl)/len(Wvl)
-    st.write(f'Mean velocity : {mean_v} ms⁻¹')
+    st.write(f'##### Mean velocity : {mean_v} ms⁻¹')
 
     st.write(f'Theoritical value of velocity: 348.204ms⁻¹ (assuming T = 300K)')
     error = abs((348.204 - mean_v)/348.204) * 100
-    st.write(f'### Error in your data: {error}%')
+    st.write(f'##### Error in your data: {error}%')
