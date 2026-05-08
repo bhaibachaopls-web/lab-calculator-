@@ -44,8 +44,13 @@ if input_method == "Upload File":
         })
 else: 
     st.write("Type your data directly into the table below. Click the bottom row to add more.")
-    blank_template = pd.DataFrame(columns=["distance", "pulse_height"])
-    df_raw = st.data_editor(blank_template, num_rows="dynamic", use_container_width=True, on_change=reset_calc)
+    distance_values = list(range(0,50))
+    empty_pulse_values = [None] * 50
+    prefilled_template = pd.DataFrame({
+        "distance": distance_values,
+        "pulse_height": empty_pulse_values
+    })
+    df_raw = st.data_editor(prefilled_template, num_rows="dynamic", use_container_width=True, on_change=reset_calc)
 
 if not df_raw.empty:
     df_clean = df_raw.dropna(subset=['distance', 'pulse_height'])
