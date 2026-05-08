@@ -4,6 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt 
 
 
+def reset_calc():
+    # This forces the app to "forget" the button click
+    st.session_state.calc_exp2 = False
+
+
 
 st.set_page_config(page_title="Experiment 1", page_icon="📈", layout="centered")
 st.title("A₁")
@@ -16,7 +21,7 @@ input_method = st.radio("How do you want to input your data?", ["Upload File", "
 df_raw = pd.DataFrame()
 
 if input_method == "Upload File":
-    uploaded_file = st.file_uploader("Upload your CSV or Excel file", type=["csv", "xlsx"])
+    uploaded_file = st.file_uploader("Upload your CSV or Excel file", type=["csv", "xlsx"], on_change=reset_calc)
     if uploaded_file is not None:
         if uploaded_file.name.endswith('.csv'):
             df_raw = pd.read_csv(uploaded_file)
@@ -44,31 +49,40 @@ if input_method == "Upload File":
 else: 
     st.write("Type your data directly into the table below. Click the bottom row to add more.")
     blank_template = pd.DataFrame(columns=["Frequency", "Pulse height across R₁", "Total Pulse height"])
-    df_raw = st.data_editor(blank_template, num_rows="dynamic", use_container_width=True)
+    df_raw = st.data_editor(blank_template, num_rows="dynamic", use_container_width=True, on_change=reset_calc)
 
+if not df_raw.empty:
+    df_clean = df_raw.dropna(subset=['freq', 'h1', 'total'])
+else:
+    df_clean = pd.DataFrame()
+if 'calc_exp2' not in st.session_state:
+    st.session_state.calc_exp2 = False
+if st.button("Start Calculation", type="primary"):
+    st.session_state.calc_exp2 = True
 
+if st.session_state.calc_exp2 and not df_clean.empty:
+    if len(df_clean) < 3:
+        st.info("💡 Please enter at least 3 rows of data to calculate the spline curve.")
+    else:    
+        st.divider()
+        st.subheader("1. Raw Data")
+        st.dataframe(df_raw, use_container_width=True)
+        st.divider()
+        st.subheader("Completed Data table")
+        df = df_clean.copy()
+        df['h2'] = df['total'] - df['h1']
+        df['z'] = (df['h2'] / df['h1']) * 1000
+        st.dataframe(df, use_container_width=True)
 
+        st.subheader("2. Visualizer")
+        plt.style.use('seaborn-v0_8-whitegrid')
+        fig, ax = plt.subplots()
+        ax.plot(df['freq'], df['z'], color='black', marker='o', markersize=4, linestyle='None')
+        ax.plot(df['freq'], df['z'], color='blue', linewidth=.5)
 
-if not df_raw.empty and not df_raw.isna().all().all():
-    st.divider()
-    st.subheader("1. Raw Data")
-    st.dataframe(df_raw, use_container_width=True)
-    st.divider()
-    st.subheader("Completed Data table")
-    df = df_raw.copy()
-    df['h2'] = df['total'] - df['h1']
-    df['z'] = (df['h2'] / df['h1']) * 1000
-    st.dataframe(df, use_container_width=True)
-
-    st.subheader("2. Visualizer")
-    plt.style.use('seaborn-v0_8-whitegrid')
-    fig, ax = plt.subplots()
-    ax.plot(df['freq'], df['z'], color='black', marker='o', markersize=4, linestyle='None')
-    ax.plot(df['freq'], df['z'], color='blue', linewidth=.5)
-
-    ax.set_title('Impedance as a function of frequency')
-    ax.set_xlabel('Frequency, (KHz)')
-    ax.set_ylabel('Impedance, Z(Ω)')
-    ax.set_xticks(np.arange(0, 200, 20))
-    ax.set_yticks(np.arange(0, 23000, 2000))
-    st.pyplot(fig)
+        ax.set_title('Impedance as a function of frequency')
+        ax.set_xlabel('Frequency, (KHz)')
+        ax.set_ylabel('Impedance, Z(Ω)')
+        ax.set_xticks(np.arange(0, 200, 20))
+        ax.set_yticks(np.arange(0, 23000, 2000))
+        st.pyplot(fig)
