@@ -43,7 +43,7 @@ if input_method == "Upload File":
 
 else: 
     st.write("Type your data directly into the table below. Click the bottom row to add more.")
-    blank_template = pd.DataFrame(columns=["freq", "h1", "total"])
+    blank_template = pd.DataFrame(columns=["Frequency", "Pulse height across R₁", "Total Pulse height"])
     df_raw = st.data_editor(blank_template, num_rows="dynamic", use_container_width=True)
 
 
@@ -57,7 +57,7 @@ if not df_raw.empty and not df_raw.isna().all().all():
     st.subheader("Completed Data table")
     df = df_raw.copy()
     df['h2'] = df['total'] - df['h1']
-    df['z'] = (df['h2'] / df['h1']) * 10000
+    df['z'] = (df['h2'] / df['h1']) * 1000
     st.dataframe(df, use_container_width=True)
 
     st.subheader("2. Visualizer")
@@ -70,5 +70,5 @@ if not df_raw.empty and not df_raw.isna().all().all():
     ax.set_xlabel('Frequency, (KHz)')
     ax.set_ylabel('Impedance, Z(Ω)')
     ax.set_xticks(np.arange(0, 200, 20))
-    ax.set_yticks(np.arange(0, 230000, 20000))
+    ax.set_yticks(np.arange(0, 23000, 2000))
     st.pyplot(fig)
