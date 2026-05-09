@@ -221,73 +221,79 @@ with tab3:
     if st.session_state.lambda_1 is not None and st.session_state.lambda_2 is not None:
         st.success("Wavelengths calculated from Tables 1 and 2! You can now process Table 3.")
         
-        # Calculate and display the combined average wavelength
-        avg_lambda = (st.session_state.lambda_1 + st.session_state.lambda_2) / 2
-        st.info(f"Using combined average wavelength ($\lambda$): **{avg_lambda:.4f} cm**")
-        
         df3 = get_table_data(input_method, ["Angle (deg)", "Meter Reading (mA)"], "Table 3")
-        
+
         if df3 is not None:
-            # Extract data columns as numpy arrays for SciPy
-            x = df3["Angle (deg)"].to_numpy()
-            y = df3["Meter Reading (mA)"].to_numpy()
-            
+            st.button("Calculate Bragg Diffraction", type="primary", on_click=trigger_T3, key="btn_t3")
+        
+            if st.session_state.calc_T3:
 
-            x_smooth = np.linspace(x.min(), x.max(), 300)
-            spline = make_interp_spline(x, y, k=3)
-            y_smooth = spline(x_smooth)
-            
-            # --- 2. PEAK FINDING (From your Screenshot) ---
-            peak_indices, properties = find_peaks(y_smooth, prominence=0.04)
-            peak_distances = x_smooth[peak_indices]
-            peak_height = y_smooth[peak_indices]
-            
-            # --- 3. PHYSICS CALCULATIONS ---
-            first_peak = np.argmax(peak_height).item()
-            remaining_values = peak_height[first_peak + 1:]
+                avg_lambda = (st.session_state.lambda_1 + st.session_state.lambda_2) / 2
+                st.info(f"Using combined average wavelength ($\lambda$): **{avg_lambda:.4f} cm**")
+                
+                df3 = get_table_data(input_method, ["Angle (deg)", "Meter Reading (mA)"], "Table 3")
+                
+                if df3 is not None:
+                    # Extract data columns as numpy arrays for SciPy
+                    x = df3["Angle (deg)"].to_numpy()
+                    y = df3["Meter Reading (mA)"].to_numpy()
+                    
 
-            if len(remaining_values) == 0 :
-                st.write("Your second maxima is too small.Redo the last part for a better data")
-            else :
-                second_peak = np.argmax(remaining_values).item()
-                second_peak = first_peak + 1 + second_peak
-            
-            # --- 5. VISUALIZER ---
-            st.subheader("Graph for Bragg diffraction")
-            plt.style.use('seaborn-v0_8-whitegrid')
-            fig, ax = plt.subplots(figsize=(8, 5))
-            
-            ax.plot(x, y, 'o', color='#343ff3')
-            ax.plot(x_smooth, y_smooth, '-', color='green')
-            ax.annotate(
-                text = 'First maxima',
-                xy = (peak_distances[first_peak], peak_height[first_peak]),
-                xytext=(peak_distances[first_peak], peak_height[first_peak] + 0.03)
-            )
-            ax.annotate(
-                text = 'Second maxima',
-                xy = (peak_distances[second_peak], peak_height[second_peak]),
-                xytext=(peak_distances[second_peak], peak_height[second_peak] + 0.03)
-            )
-            
-            ax.set_title('Intensity as a function of angle', fontsize=14, pad=15)
-            ax.set_xlabel('Angle (degrees)', fontsize=12)
-            ax.set_ylabel('Intensity (mA)', fontsize=12)
-            ax.set_xticks(np.arange(0,max(x) + 3,5))
-            ax.set_yticks(np.arange(0,max(y) + .1, .05))
-            
-            st.pyplot(fig)
-            
-            # ====== Calculation =======
-            st.subheader('Calculation for Bragg Diffraction')
-            st.write(f'Using ($\lambda$): **{avg_lambda:.4f} cm**')
-            st.write('d = nλ/2sinθ')
-            d1 = avg_lambda / (2 *np.sin(np.radians(peak_distances[first_peak])))
-            d2 = (2 *avg_lambda) / (2 *np.sin(np.radians(peak_distances[second_peak])))
-            st.write(f'd1: {d1}')
-            st.write(f'd2: {d2}')
-            st.write(f'Average d : {(d1 + d2)/2}')
+                    x_smooth = np.linspace(x.min(), x.max(), 300)
+                    spline = make_interp_spline(x, y, k=3)
+                    y_smooth = spline(x_smooth)
+                    
+                    # --- 2. PEAK FINDING (From your Screenshot) ---
+                    peak_indices, properties = find_peaks(y_smooth, prominence=0.04)
+                    peak_distances = x_smooth[peak_indices]
+                    peak_height = y_smooth[peak_indices]
+                    
+                    # --- 3. PHYSICS CALCULATIONS ---
+                    first_peak = np.argmax(peak_height).item()
+                    remaining_values = peak_height[first_peak + 1:]
+
+                    if len(remaining_values) == 0 :
+                        st.write("Your second maxima is too small.Redo the last part for a better data")
+                    else :
+                        second_peak = np.argmax(remaining_values).item()
+                        second_peak = first_peak + 1 + second_peak
+                    
+                    # --- 5. VISUALIZER ---
+                    st.subheader("Graph for Bragg diffraction")
+                    plt.style.use('seaborn-v0_8-whitegrid')
+                    fig, ax = plt.subplots(figsize=(8, 5))
+                    
+                    ax.plot(x, y, 'o', color='#343ff3')
+                    ax.plot(x_smooth, y_smooth, '-', color='green')
+                    ax.annotate(
+                        text = 'First maxima',
+                        xy = (peak_distances[first_peak], peak_height[first_peak]),
+                        xytext=(peak_distances[first_peak], peak_height[first_peak] + 0.03)
+                    )
+                    ax.annotate(
+                        text = 'Second maxima',
+                        xy = (peak_distances[second_peak], peak_height[second_peak]),
+                        xytext=(peak_distances[second_peak], peak_height[second_peak] + 0.03)
+                    )
+                    
+                    ax.set_title('Intensity as a function of angle', fontsize=14, pad=15)
+                    ax.set_xlabel('Angle (degrees)', fontsize=12)
+                    ax.set_ylabel('Intensity (mA)', fontsize=12)
+                    ax.set_xticks(np.arange(0,max(x) + 3,5))
+                    ax.set_yticks(np.arange(0,max(y) + .1, .05))
+                    
+                    st.pyplot(fig)
+                    
+                    # ====== Calculation =======
+                    st.subheader('Calculation for Bragg Diffraction')
+                    st.write(f'Using ($\lambda$): **{avg_lambda:.4f} cm**')
+                    st.write('d = nλ/2sinθ')
+                    d1 = avg_lambda / (2 *np.sin(np.radians(peak_distances[first_peak])))
+                    d2 = (2 *avg_lambda) / (2 *np.sin(np.radians(peak_distances[second_peak])))
+                    st.write(f'd1: {d1}')
+                    st.write(f'd2: {d2}')
+                    st.write(f'Average d : {(d1 + d2)/2}')
 
 
-    else:
-        st.info("🔒 Please click the Calculate buttons in both Table 1 and Table 2 to unlock this section.")
+            else:
+                st.info("🔒 Please click the Calculate buttons in both Table 1 and Table 2 to unlock this section.")
