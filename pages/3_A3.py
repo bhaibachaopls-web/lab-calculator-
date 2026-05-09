@@ -165,7 +165,7 @@ with tab1:
 
             # =====Error======
 
-            st.subheader('Error in Fabry Perot setup')
+            st.subheader('Error in Double slit setup')
             error = (2.85 - calculated_lambda_1)/2.85
             st.write(f'Error: {abs(error)}%')
 # ==========================================
