@@ -99,8 +99,8 @@ if not df_clean.empty:
             fig, ax = plt.subplots(figsize=(11, 8))
             ax.set_xticks(np.arange(0, max(df['V₁ + V₂']) + 4, 1))
             ax.set_yticks(np.arange(0, max(df['Measured_Vout']) + 3, 1))
-            ax.set_xlim(0,max(df['V₁ + V₂']))
-            ax.set_ylim(0,max(df['Measured_Vout']))
+            ax.set_xlim(0,max(df['V₁ + V₂']) + 1)
+            ax.set_ylim(0,max(df['Measured_Vout']) + .8)
             for x_ns, y_ns in not_smoothened_list :
                 ax.plot(x_ns, y_ns, marker = 'o', markersize = 4, linestyle = 'None')
             for x_s, y_s, res in smoothened_list :
