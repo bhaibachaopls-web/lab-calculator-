@@ -7,10 +7,6 @@ from scipy.signal import find_peaks
 
 
 # ======== Button Setup ========
-# def reset_calc():
-#     st.session_state.calc_exp2 = False
-# def trigger_math():
-#     st.session_state.calc_exp2 = True
 def reset_calc(table_id):
     """Resets the calculation state if the user edits the table data."""
     if table_id == "Table 1": st.session_state.calc_T1 = False
