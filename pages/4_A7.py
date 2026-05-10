@@ -97,8 +97,8 @@ if not df_clean.empty:
             #=====Plotting Graph=====
             st.subheader('Graph')
             fig, ax = plt.subplots(figsize=(11, 8))
-            ax.set_xticks(np.arange(0, max(df['V₁ + V₂']) + 2, 1))
-            ax.set_yticks(np.arange(0, max(df['Measured_Vout']) + 1, 1))
+            ax.set_xticks(np.arange(0, max(df['V₁ + V₂']) + 4, 1))
+            ax.set_yticks(np.arange(0, max(df['Measured_Vout']) + 3, 1))
             ax.set_xlim(0,max(df['V₁ + V₂']))
             ax.set_ylim(0,max(df['Measured_Vout']))
             for x_ns, y_ns in not_smoothened_list :
