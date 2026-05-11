@@ -95,6 +95,7 @@ with tab1:
             st.dataframe(st.session_state.df1, use_container_width = True)
             
             df1_copy = st.session_state.df1.copy()
+            df1_copy.sort_values(by= 'Angle', inplace= True)
             df1_copy['Angle'] = df1_copy['Angle'].astype(float)
             df1_copy['Meter Reading'] = df1_copy['Meter Reading'].astype(float)
             df1_copy['meter_reading_norm'] = df1_copy['Meter Reading']/df1_copy['Meter Reading'].max()
@@ -184,6 +185,7 @@ with tab2:
         
         if st.session_state.calc_T2:
             df2_copy = st.session_state.df2.copy()
+            df2_copy.sort_values(by = 'Position of second plate d2 (cm)', inplace= True)
             
             st.subheader("Input Table")
             st.dataframe(df2_copy, use_container_width=True)
@@ -231,7 +233,7 @@ with tab3:
                 avg_lambda = (st.session_state.lambda_1 + st.session_state.lambda_2) / 2
                 st.info(f"Using combined average wavelength ($\lambda$): **{avg_lambda:.4f} cm**")
                 
-                
+                df3.sort_values(by = 'Angle (deg)', inplace= True)
                 x = df3["Angle (deg)"].to_numpy()
                 y = df3["Meter Reading (mA)"].to_numpy()
                 

@@ -73,6 +73,9 @@ if not df_clean.empty:
             # st.divider()
             # st.subheader("Completed Data table")
             df = df_clean.copy()
+            df_clean['distance'] = df_clean['distance'].astype(float)
+            df_clean['pulse_height'] = df_clean['pulse_height'].astype(float)
+            df_clean.sort_values(by= 'distance', inplace= True)
             # df['h2'] = df['total'] - df['h1']
             # df['z'] = (df['h2'] / df['h1']) * 1000
             # st.dataframe(df, use_container_width=True)
