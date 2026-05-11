@@ -75,6 +75,9 @@ if not df_clean.empty:
             st.divider()
             st.subheader("Completed Data table")
             df = df_clean.copy()
+            df['freq'] = df['freq'].astype(float)
+            df['h1'] = df['h1'].astype(float)
+            df['total'] = df['total'].astype(float)
             df.sort_values(by= 'freq', inplace= True)
             df['h2'] = df['total'] - df['h1']
             df['z'] = (df['h2'] / df['h1']) * 1000

@@ -12,7 +12,7 @@ def trigger_math():
 
 
 st.set_page_config(page_title="Experiment A5", page_icon="📈", layout="centered")
-st.title("A₇")
+st.title("A₅")
 st.subheader("To study the design and construction of an Astable Multivibrator.")
 
 
@@ -26,6 +26,8 @@ data = {
 df_raw = pd.DataFrame(data)
 st.write("Type your data directly into the table below.")
 df_raw = st.data_editor(df_raw, use_container_width=True, on_change=reset_calc)
+df_raw['t1(µs)'] = pd.to_numeric(df_raw['t1(µs)'], errors='coerce')
+df_raw['t2(µs)'] = pd.to_numeric(df_raw['t2(µs)'], errors='coerce')
 
 if not df_raw.empty:
     df_clean = df_raw.dropna(subset=['t1(µs)', 't2(µs)'])
