@@ -40,8 +40,8 @@ if not df_clean.empty:
 
     if st.session_state.calc_exp :
         df = df_raw.copy()
-        df['t1(µs)'] = df['t1(µs)'].astype(float)
-        df['t2(µs)'] = df['t2(µs)'].astype(float)
+        # df['t1(µs)'] = df['t1(µs)'].astype(float)
+        # df['t2(µs)'] = df['t2(µs)'].astype(float)
         df['t'] = df['t1(µs)'] + df['t2(µs)']
         T = ((df['t'].sum())/len(df['t'])).item()
         st.subheader('Calculation:')

@@ -25,9 +25,9 @@ def trigger_T3(): st.session_state.calc_T3 = True
 st.set_page_config(page_title="Experiment A3", page_icon="📈", layout="centered")
 st.title("Experiment A₃")
 st.subheader("""Using microwave radiation investigation of:             
- i) Interference pattern by a double slit setup.
- ii) Determination of wavelength by Fabry-Perot Interferometer
- iii) Determination of spacing between two crystal planes by Bragg diffraction.
+    i) Interference pattern by a double slit setup.
+    ii) Determination of wavelength by Fabry-Perot Interferometer
+    iii) Determination of spacing between two crystal planes by Bragg diffraction.
 """)
 
 # --- MEMORY INITIALIZATION ---
@@ -95,9 +95,9 @@ with tab1:
             st.dataframe(st.session_state.df1, use_container_width = True)
             
             df1_copy = st.session_state.df1.copy()
-            df1_copy.sort_values(by= 'Angle', inplace= True)
             df1_copy['Angle'] = df1_copy['Angle'].astype(float)
             df1_copy['Meter Reading'] = df1_copy['Meter Reading'].astype(float)
+            df1_copy.sort_values(by= 'Angle', inplace= True)
             df1_copy['meter_reading_norm'] = df1_copy['Meter Reading']/df1_copy['Meter Reading'].max()
             
             st.subheader('Completed Data table for Double Slit')

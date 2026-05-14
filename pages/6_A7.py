@@ -50,7 +50,7 @@ if input_method == "Upload File":
             df_raw["Rf(KΩ)"] = df_raw["Rf(KΩ)"].ffill()
 else: 
     st.write("Type your data directly into the table below. Click the bottom row to add more.")
-    st.info('💡 Enter the $R_f$ value only in the first row for each new resistor. Leave the cells below it blank; they will auto-fill.)')
+    st.info('💡 Enter the $R_f$ value only in the first row for each new resistor. Leave the cells below it blank(if convenient); they will auto-fill.')
     blank_template = pd.DataFrame(columns=["Rf(KΩ)", "V₁", "Measured_Vout"])
     df_raw = st.data_editor(blank_template, num_rows="dynamic", use_container_width=True, on_change=reset_calc)
     df_raw["Rf(KΩ)"] = df_raw["Rf(KΩ)"].ffill()
