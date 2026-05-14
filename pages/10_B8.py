@@ -91,7 +91,7 @@ if not df_clean.empty:
             
             fig, ax = plt.subplots(figsize=(11, 8))
 
-            ax.plot(X, y, color = 'black')
+            ax.plot(X, y, color = 'black', marker = 'o', linestyle = 'None')
             ax.plot(X, linreg.predict(X), color = 'black')
 
             ax.set_xticks(np.arange(-xmax - 1, xmax + 1, 1))

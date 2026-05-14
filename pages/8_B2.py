@@ -153,7 +153,7 @@ with tab2:
                 st.subheader('Visualization')
 
                 plt.style.use('seaborn-v0_8-whitegrid')
-                fig, ax = plt.subplots(figsize=(np.sqrt(200), 10))
+                fig, ax = plt.subplots(figsize=(11,8))
 
                 X_full = df_2[['time']]
 

@@ -150,7 +150,8 @@ if not df_clean.empty:
         
         # Render the second figure
         st.pyplot(fig2)
+        st.divider()
         st.subheader('Calculation : Eg = -(slope*1000 * k)/1eV')
         slope = -linreg.coef_.item()
         eg = slope * 1000 * (1.38*10**(-23))
-        st.write(f'Band-gap : {eg/(1.6 * 10**-19)}')
+        st.write(f'##### Band-gap : {eg/(1.6 * 10**-19)}')

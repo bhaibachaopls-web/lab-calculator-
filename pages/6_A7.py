@@ -66,6 +66,10 @@ if not df_clean.empty:
 
     if st.session_state.calc_exp :
         df = df_raw.copy()
+        df['Rf(KΩ)'] = df['Rf(KΩ)'].astype(float)
+        df['V₁'] = df['V₁'].astype(float)
+        df['Measured_Vout'] = df['Measured_Vout'].astype(float)
+
         av = df['Rf(KΩ)'] / 10
         df.insert(1,'Av', value= av)
         V2 = df['V₁']

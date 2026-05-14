@@ -117,6 +117,7 @@ with tab2:
     if st.session_state.avg_resistance is not None:
         st.success("Room Temp Resistance calculated! You can now process Table 2.")
         st.info(f"Using $R(t_r)$ = **{st.session_state.avg_resistance:.4f} Ω**")
+        st.info("⚠️ DON'T convert Utherm into mV. Keep it as it is" )
 
         # Table 2 has 3 input columns, and no predefined constants
         st.session_state.df2 = get_table_data(
@@ -126,11 +127,13 @@ with tab2:
         )
         
         if st.session_state.df2 is not None:
-            st.info("⚠️ DON'T convert Utherm into mV. Keep it as it is" )
             st.button("Calculate Stefan-Boltzmann Data", type="primary", on_click=trigger_T2, key="btn_t2")
         
             if st.session_state.calc_T2:
                 df2_copy = st.session_state.df2.copy()
+                st.subheader('Uploaded data')
+                st.dataframe(df2_copy)
+                st.divider()
                 
                 # Clean strings to floats
                 for col in df2_copy.columns:
@@ -155,7 +158,7 @@ with tab2:
                 X = df2_copy[['lnT']]
                 
                 # --- 4. INSERT YOUR GRAPH AND LINEAR REGRESSION HERE ---
-                
+                st.divider()
                 st.subheader('Visualization')
                 plt.style.use('seaborn-v0_8-whitegrid')
                 fig, ax = plt.subplots(figsize=(11, 8))
