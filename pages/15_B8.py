@@ -18,8 +18,8 @@ def trigger_math():
 st.set_page_config(page_title="Experiment B8", page_icon="📈", layout="centered")
 st.title("B₈")
 st.subheader("""To study depletion capacitance of a given p-n junction with reverse bias voltage and hence to find the
-            (i) contact potential V0 and 
-            (ii) intrinsic capacitance C₀
+    (i) contact potential V0 and 
+    (ii) intrinsic capacitance C₀
             """)
 
 
@@ -77,6 +77,7 @@ if not df_clean.empty:
         freq_lst = df_testing['Frequency'].unique()
 
         for freq in freq_lst :
+            st.subheader(f'For frequency = {freq}')
             df_x = df_testing[df_testing['Frequency'] == freq]
             df_x['1/c²'] = 1/df_x['cap'] ** 2
             X = df_x[['Reverse Voltage (V)']]
@@ -124,5 +125,15 @@ if not df_clean.empty:
             ax.spines['top'].set_color('none')
             plt.show()
             st.pyplot(fig)
+
+            st.divider()
+            st.subheader('Calculation')
+            slope = linreg.coef_.item()
+            intersect = linreg.intercept_.item()
+            st.write(f'#### Contact potential : {-intersect/slope} V')
+            st.write(f'##### Intrinsic capacitance : {1/np.sqrt(intersect)} µF')
+            st.divider()
+
+
 
             

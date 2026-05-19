@@ -19,7 +19,7 @@ def trigger_T1(): st.session_state.calc_T1 = True
 def trigger_T2(): st.session_state.calc_T2 = True
 
 # --- PAGE SETUP ---
-st.set_page_config(page_title="Experiment B11", page_icon="📈", layout="centered")
+st.set_page_config(page_title="Experiment A9", page_icon="📈", layout="centered")
 st.title("Experiment A₉")
 st.subheader("Experimentally verify the Stefan-Boltzmann's Law of radiation and determine Stefan-Boltzmann constant.")
 
@@ -40,7 +40,6 @@ def get_table_data(method, col_names, table_id, predefined_col1=None):
             df = pd.read_csv(file) if file.name.endswith('.csv') else pd.read_excel(file)
             st.write(f"Map columns for {table_id}:")
             
-            # Dynamically create selectboxes based on the number of columns requested
             cols = st.columns(len(col_names))
             mapped_data = {}
             for i, col_name in enumerate(col_names):
@@ -52,7 +51,6 @@ def get_table_data(method, col_names, table_id, predefined_col1=None):
     else:
         st.write(f"Enter data for {table_id}:")
         
-        # If we passed predefined constants (like 50, 100 for Table 1), pre-fill them!
         if predefined_col1 is not None:
             initial_df = pd.DataFrame({col_names[0]: predefined_col1})
             for col in col_names[1:]:
@@ -78,7 +76,6 @@ tab1, tab2 = st.tabs(["Table 1: Room Temp Resistance", "Table 2: Thermopile Volt
 # TAB 1: ROOM TEMP RESISTANCE
 # ==========================================
 with tab1:
-    # Notice we pass [50, 100] as the predefined_col1 argument to lock in the currents
     st.session_state.df1 = get_table_data(
         method=input_method,
         col_names=["Current I (mA)", "Voltage V (V)"],
