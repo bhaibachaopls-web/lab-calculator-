@@ -9,7 +9,7 @@ from sklearn.linear_model import LinearRegression
 
 
 # ====== VARIABLE =======
-t = 18 * 10**(-6)
+t = 25 * 10**(-6)
 
 # ======== Button Setup ========
 def reset_calc(table_id):
@@ -138,7 +138,7 @@ with tab1:
             st.subheader('Calculation')
             I = st.number_input("Enter the constant current (A):", value=None, format="%.2f")
             if I is not None or 0 :
-                rh_I = slope_1*10**(-2) * (t/I)
+                rh_I = slope_1*10**(-4) * (t/I)
                 st.write(f'#### The value of hall coefficient : {rh_I}')
             else :
                 st.write('### Enter a valid value of the current')
@@ -207,7 +207,7 @@ with tab2:
             st.subheader('Calculation')
             b_field = st.number_input("Enter the constant magnetic field (mT):", value=None, format="%.2f")
             if b_field is not None or 0 :
-                rh = slope_1 *10**(-2) * (t/b_field)
+                rh = slope_1 *10**(-4) * (t/b_field)
                 st.write(f'#### The value of hall coefficient : {rh}')
             else :
                 st.write('### Enter a valid value of the magnetic field')
