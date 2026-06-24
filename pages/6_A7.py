@@ -21,6 +21,8 @@ input_method = st.radio("How do you want to input your data?", ["Upload File", "
 
 df_raw = pd.DataFrame()
 
+st.info('In this experiment, V1 and V2 has to be equal. I just leads to an easier path to calculation.')
+
 if input_method == "Upload File":
     uploaded_file = st.file_uploader("Upload your CSV or Excel file", type=["csv", "xlsx"], on_change=reset_calc)
     if uploaded_file is not None:
@@ -93,8 +95,12 @@ if not df_clean.empty:
                 y = df_x['Measured_Vout'].to_numpy()
                 not_smoothened_coords = (X,y)
                 not_smoothened_list.append(not_smoothened_coords)
+
+                X_anchored = np.insert(X, 0, 0.0)
+                y_anchored = np.insert(y, 0, 0.0)
+
                 x_smooth = np.linspace(0, X.max(), 500)
-                spline = PchipInterpolator(X,y)
+                spline = PchipInterpolator(X_anchored,y_anchored)
                 y_smooth = spline(x_smooth)
                 smoothened_coords = (x_smooth, y_smooth, resistance)
                 smoothened_list.append(smoothened_coords)
