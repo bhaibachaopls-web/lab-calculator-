@@ -21,7 +21,7 @@ input_method = st.radio("How do you want to input your data?", ["Upload File", "
 
 df_raw = pd.DataFrame()
 
-st.info('In this experiment, V1 and V2 has to be equal. I just leads to an easier path to calculation.')
+st.info('In this experiment, V1 and V2 has to be equal. It just leads to an easier path to calculation.')
 
 if input_method == "Upload File":
     uploaded_file = st.file_uploader("Upload your CSV or Excel file", type=["csv", "xlsx"], on_change=reset_calc)
